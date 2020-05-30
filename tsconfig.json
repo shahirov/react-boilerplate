@@ -18,5 +18,8 @@
     "sourceMap": true,
     "baseUrl": "src"
   },
+  "paths": {
+    "components": ["components"]
+  },
   "exclude": ["build", "config"]
 }
