@@ -54,6 +54,8 @@
     "fork-ts-checker-webpack-plugin": "^4.1.6",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "html-webpack-plugin": "^4.3.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.7",
     "mini-css-extract-plugin": "^0.9.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "pnp-webpack-plugin": "^1.6.4",
@@ -79,5 +81,16 @@
     "react-dom": "^16.13.1",
     "react-hot-loader": "^4.12.21",
     "styled-components": "^5.1.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,json,css,scss,md}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
