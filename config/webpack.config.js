@@ -303,9 +303,6 @@ module.exports = {
       },
     }),
     useTypeScript && new ForkTsCheckerWebpackPlugin(),
-    isEnvProduction &&
-      new BundleAnalyzerPlugin({
-        excludeAssets: true,
-      }),
+    isEnvProduction && new BundleAnalyzerPlugin(),
   ].filter(Boolean),
 }
