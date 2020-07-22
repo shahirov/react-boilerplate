@@ -13,17 +13,25 @@ const ErrorOverlayPlugin = require('error-overlay-webpack-plugin')
 const CircularDependencyPlugin = require('circular-dependency-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 
-const paths = require('./paths')
-const devServerConfig = require('./webpack.server')
+const paths = {
+  index: path.resolve(__dirname, 'src/index'),
+  src: path.resolve(__dirname, 'src'),
+  html: path.resolve(__dirname, 'public/index.html'),
+  nodeModules: path.resolve(__dirname, 'node_modules'),
+  public: path.resolve(__dirname, 'public'),
+  build: path.resolve(__dirname, 'build'),
+  tsConfig: path.resolve(__dirname, 'tsconfig.json'),
+  dotenv: path.resolve(__dirname, '.env'),
+  publicUrl: '/',
+}
+const fileExtensions = ['js', 'ts', 'tsx', 'json', 'jsx']
+const shouldUseSourceMap = false
 
 // Check if TypeScript is setup.
-const useTypeScript = fs.existsSync(paths.appTsConfig)
-
-const shouldUseSourceMap = false
+const useTypeScript = fs.existsSync(paths.tsConfig)
 
 const isEnvDevelopment = process.env.NODE_ENV === 'development'
 const isEnvProduction = process.env.NODE_ENV === 'production'
@@ -61,15 +69,29 @@ const getStyleLoaders = (cssOptions) => {
 
 module.exports = {
   mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
-  devServer: devServerConfig,
+  devServer: {
+    contentBase: paths.public,
+    contentBasePublicPath: paths.publicUrl,
+    publicPath: paths.publicUrl.slice(0, -1),
+    watchContentBase: true,
+    hot: true,
+    open: true,
+    compress: true,
+    quiet: true,
+    historyApiFallback: {
+      disableDotRule: true,
+      index: paths.publicUrl,
+    },
+    port: 8080,
+  },
   devtool: isEnvProduction
     ? shouldUseSourceMap
       ? 'source-map'
       : false
     : isEnvDevelopment && 'cheap-module-source-map',
-  entry: ['react-hot-loader/patch', paths.appIndexJs],
+  entry: ['react-hot-loader/patch', paths.index],
   output: {
-    path: paths.appBuild,
+    path: paths.build,
     pathinfo: isEnvDevelopment,
     filename: isEnvProduction
       ? 'static/js/[name].[contenthash:8].js'
@@ -77,7 +99,7 @@ module.exports = {
     chunkFilename: isEnvProduction
       ? 'static/js/[name].[contenthash:8].chunk.js'
       : isEnvDevelopment && 'static/js/[name].chunk.js',
-    publicPath: paths.publicUrlOrPath,
+    publicPath: paths.publicUrl,
   },
   node: {
     module: 'empty',
@@ -138,14 +160,14 @@ module.exports = {
     },
   },
   resolve: {
-    modules: ['node_modules', paths.appNodeModules],
-    extensions: paths.moduleFileExtensions
+    modules: ['node_modules', paths.nodeModules],
+    extensions: fileExtensions
       .map((ext) => `.${ext}`)
       .filter((ext) => useTypeScript || !ext.includes('ts')),
     plugins: [PnpWebpackPlugin],
     alias: {
       'react-dom': '@hot-loader/react-dom',
-      components: paths.appComponents,
+      '~': paths.src,
     },
   },
   resolveLoader: {
@@ -158,7 +180,7 @@ module.exports = {
       {
         test: /\.(ts|tsx|js|jsx)$/,
         enforce: 'pre',
-        include: paths.appSrc,
+        include: paths.src,
         use: [
           {
             loader: require.resolve('eslint-loader'),
@@ -171,7 +193,7 @@ module.exports = {
       },
       {
         test: /\.(ts|tsx|js|jsx)$/,
-        include: paths.appSrc,
+        include: paths.src,
         use: [
           {
             loader: require.resolve('babel-loader'),
@@ -221,7 +243,7 @@ module.exports = {
         {},
         {
           inject: true,
-          template: paths.appHtml,
+          template: paths.html,
         },
         isEnvProduction
           ? {
@@ -286,7 +308,7 @@ module.exports = {
       }),
     new ManifestPlugin({
       fileName: 'asset-manifest.json',
-      publicPath: paths.publicUrlOrPath,
+      publicPath: paths.publicUrl,
       generate: (seed, files, entrypoints) => {
         const manifestFiles = files.reduce((manifest, file) => {
           manifest[file.name] = file.path
@@ -303,6 +325,5 @@ module.exports = {
       },
     }),
     useTypeScript && new ForkTsCheckerWebpackPlugin(),
-    isEnvProduction && new BundleAnalyzerPlugin(),
   ].filter(Boolean),
 }
