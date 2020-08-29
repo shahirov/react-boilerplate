@@ -5,27 +5,12 @@ module.exports = (api) => {
     presets: [
       '@babel/preset-typescript',
       '@babel/preset-react',
-      [
-        '@babel/preset-env',
-        {
-          modules: false,
-          shippedProposals: true,
-          loose: true,
-          useBuiltIns: false,
-          targets: {
-            browsers: [
-              'last 2 Chrome versions',
-              'last 2 Firefox versions',
-              'last 2 Safari versions',
-            ],
-          },
-        },
-      ],
+      '@babel/preset-env',
     ],
     plugins: [
       'babel-plugin-styled-components',
       // Applies the react-refresh Babel plugin on non-production modes only
-      !api.env('production') && 'react-refresh/babel',
+      api.env('development') && 'react-refresh/babel',
     ].filter(Boolean),
   }
 }
