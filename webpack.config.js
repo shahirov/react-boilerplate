@@ -1,11 +1,13 @@
 const path = require('path')
 const fs = require('fs')
 const webpack = require('webpack')
+
 const PnpWebpackPlugin = require('pnp-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 const safePostCssParser = require('postcss-safe-parser')
 const ManifestPlugin = require('webpack-manifest-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
@@ -89,7 +91,7 @@ module.exports = {
       ? 'source-map'
       : false
     : isEnvDevelopment && 'cheap-module-source-map',
-  entry: ['react-hot-loader/patch', paths.index],
+  entry: paths.index,
   output: {
     path: paths.build,
     pathinfo: isEnvDevelopment,
@@ -166,7 +168,6 @@ module.exports = {
       .filter((ext) => useTypeScript || !ext.includes('ts')),
     plugins: [PnpWebpackPlugin],
     alias: {
-      'react-dom': '@hot-loader/react-dom',
       '~': paths.src,
     },
   },
@@ -279,20 +280,21 @@ module.exports = {
       new CopyWebpackPlugin({
         patterns: [
           {
-            from: path.resolve(__dirname, '..', 'public', 'favicon.ico'),
+            from: path.resolve(__dirname, 'public/favicon.ico'),
             to: './',
           },
           {
-            from: path.resolve(__dirname, '..', 'public', 'manifest.json'),
+            from: path.resolve(__dirname, 'public/manifest.json'),
             to: './',
           },
         ],
       }),
+    isEnvDevelopment && new ReactRefreshWebpackPlugin(),
     isEnvDevelopment && new webpack.HotModuleReplacementPlugin(),
     isEnvDevelopment &&
       new FriendlyErrorsWebpackPlugin({
         compilationSuccessInfo: {
-          messages: ['Application is running here http://localhost:3000'],
+          messages: ['Application is running here http://localhost:8080'],
         },
       }),
     isEnvDevelopment &&
