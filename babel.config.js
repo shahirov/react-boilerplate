@@ -3,12 +3,11 @@ module.exports = (api) => {
   api.cache.using(() => process.env.NODE_ENV)
   return {
     presets: [
-      '@babel/preset-typescript',
-      '@babel/preset-react',
       '@babel/preset-env',
+      '@babel/preset-react',
+      '@babel/preset-typescript',
     ],
     plugins: [
-      'babel-plugin-styled-components',
       // Applies the react-refresh Babel plugin on non-production modes only
       api.env('development') && 'react-refresh/babel',
     ].filter(Boolean),

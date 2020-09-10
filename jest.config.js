@@ -11,12 +11,15 @@ module.exports = {
   ],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': '<rootDir>/node_modules/babel-jest',
+    '^.+\\.css$': '<rootDir>/config/jest/css-transform.js',
   },
   transformIgnorePatterns: [
     '[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$',
     '^.+\\.module\\.(css|sass|scss)$',
   ],
+  moduleDirectories: ['node_modules'],
   moduleNameMapper: {
     '^~/(.*)': '<rootDir>/src/$1',
+    '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
   },
 }

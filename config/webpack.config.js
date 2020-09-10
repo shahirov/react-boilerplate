@@ -1,7 +1,6 @@
 const path = require('path')
 const fs = require('fs')
 const webpack = require('webpack')
-
 const PnpWebpackPlugin = require('pnp-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -17,19 +16,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
+const paths = require('./paths')
+const devServerConfig = require('./dev-server.config')
 
-const paths = {
-  index: path.resolve(__dirname, 'src/index'),
-  src: path.resolve(__dirname, 'src'),
-  html: path.resolve(__dirname, 'public/index.html'),
-  nodeModules: path.resolve(__dirname, 'node_modules'),
-  public: path.resolve(__dirname, 'public'),
-  build: path.resolve(__dirname, 'build'),
-  tsConfig: path.resolve(__dirname, 'tsconfig.json'),
-  dotenv: path.resolve(__dirname, '.env'),
-  publicUrl: '/',
-}
-const fileExtensions = ['js', 'ts', 'tsx', 'json', 'jsx']
 const shouldUseSourceMap = false
 
 // Check if TypeScript is setup.
@@ -71,21 +60,7 @@ const getStyleLoaders = (cssOptions) => {
 
 module.exports = {
   mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
-  devServer: {
-    contentBase: paths.public,
-    contentBasePublicPath: paths.publicUrl,
-    publicPath: paths.publicUrl.slice(0, -1),
-    watchContentBase: true,
-    hot: true,
-    open: true,
-    compress: true,
-    quiet: true,
-    historyApiFallback: {
-      disableDotRule: true,
-      index: paths.publicUrl,
-    },
-    port: 8080,
-  },
+  devServer: devServerConfig,
   devtool: isEnvProduction
     ? shouldUseSourceMap
       ? 'source-map'
@@ -163,7 +138,7 @@ module.exports = {
   },
   resolve: {
     modules: ['node_modules', paths.nodeModules],
-    extensions: fileExtensions
+    extensions: paths.fileExtensions
       .map((ext) => `.${ext}`)
       .filter((ext) => useTypeScript || !ext.includes('ts')),
     plugins: [PnpWebpackPlugin],
@@ -294,7 +269,9 @@ module.exports = {
     isEnvDevelopment &&
       new FriendlyErrorsWebpackPlugin({
         compilationSuccessInfo: {
-          messages: ['Application is running here http://localhost:8080'],
+          messages: [
+            `Application is running here http://localhost:${devServerConfig.port}`,
+          ],
         },
       }),
     isEnvDevelopment &&
