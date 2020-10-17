@@ -1,47 +1,163 @@
 {
+  "root": true,
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint/eslint-plugin", "react", "unicorn"],
-  "extends": ["react-app", "prettier"],
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": "./"
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true
+      },
+      "node": {
+        "paths": ["src"]
+      }
+    }
+  },
+  "extends": [
+    "plugin:unicorn/recommended",
+    "plugin:jest/recommended",
+    "plugin:import/typescript",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:@typescript-eslint/recommended",
+    "airbnb",
+    "airbnb/hooks",
+    "airbnb-typescript",
+    "prettier",
+    "prettier/react",
+    "prettier/@typescript-eslint",
+    "prettier/unicorn"
+  ],
   "env": {
+    "es2020": true,
     "browser": true,
     "jest": true,
     "node": true
   },
   "overrides": [
     {
-      "files": ["**/*.test.ts", "**/*.test.tsx"],
-      "env": { "jest": true },
+      "files": ["**/*.ts", "**/*.tsx"],
+      "plugins": ["simple-import-sort"],
       "rules": {
-        "import/no-extraneous-dependencies": "off"
+        "sort-imports": "off",
+        "import/order": "off",
+        "simple-import-sort/sort": [
+          "error",
+          {
+            "groups": [
+              // Side effect imports.
+              ["^\\u0000"],
+              // Packages
+              ["^@?\\w"],
+              // Absolute imports
+              ["^[^.]"],
+              // Features
+              ["^@/\\w"],
+              // Relative imports
+              ["^\\."]
+            ]
+          }
+        ],
+        "import/first": "error",
+        "import/newline-after-import": "error",
+        "import/no-duplicates": "error"
       }
     },
     {
-      "files": ["**/*.ts", "**/*.tsx"],
-      "extends": [
-        "plugin:@typescript-eslint/eslint-plugin/recommended",
-        "plugin:@typescript-eslint/eslint-plugin/eslint-recommended"
-      ],
+      "files": ["src/**/*.tsx"],
       "rules": {
-        "no-unused-vars": "off",
-        "@typescript-eslint/explicit-function-return-type": "off"
+        "@typescript-eslint/explicit-module-boundary-types": "off"
+      }
+    },
+    {
+      "files": ["config/**/*.js"],
+      "rules": {
+        "import/no-default-export": "off",
+        "import/no-extraneous-dependencies": "off",
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/restrict-template-expressions": "off",
+        "@typescript-eslint/no-unsafe-return": "off",
+        "@typescript-eslint/no-unsafe-call": "off"
+      }
+    },
+    {
+      "files": ["**/*.d.ts"],
+      "rules": {
+        "import/no-default-export": "off"
       }
     }
   ],
   "rules": {
-    "import/extensions": ["off", "ignorePackages", "error"],
-    "@typescript-eslint/no-use-before-define": "off",
-    "react/prop-types": "off",
-    "react/jsx-filename-extension": [
-      1,
+    "react/jsx-filename-extension": ["error", { "extensions": [".jsx", ".tsx"] }],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
       {
-        "extensions": [".ts", ".tsx"]
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
       }
     ],
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "no-use-before-define": "off",
-    "react/jsx-wrap-multilines": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "./*.js",
+          "webpack/**/*.ts",
+          "src/**/*.test.js",
+          "src/**/*.test.ts"
+        ]
+      }
+    ],
+    "import/prefer-default-export": "off",
+    "import/no-default-export": "error",
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "no-restricted-syntax": [
+      "error",
+      "LabeledStatement",
+      "WithStatement",
+      "SequenceExpression"
+    ],
+    "no-restricted-imports": ["error", { "patterns": ["../*", "~/@/*"] }],
+    "unicorn/prevent-abbreviations": [
+      "error",
+      {
+        "whitelist": {
+          "args": true,
+          "ref": true,
+          "Ref": true,
+          "props": true,
+          "Props": true,
+          "dev": true,
+          "Dev": true,
+          "prod": true,
+          "Prod": true,
+          "env": true,
+          "Env": true,
+          "params": true,
+          "Params": true,
+          "param": true,
+          "Param": true,
+          "config": true,
+          "Config": true
+        }
+      }
+    ],
     "unicorn/no-null": "off",
-    "no-magic-numbers": "off",
-    "unicorn/number-literal-case": "off"
+    "unicorn/no-fn-reference-in-iterator": "off",
+    "react/require-default-props": [
+      "warn",
+      {
+        "forbidDefaultForRequired": true,
+        "ignoreFunctionalComponents": true
+      }
+    ],
+    "@typescript-eslint/comma-dangle": "off"
   }
 }
