@@ -1,5 +1,5 @@
 {
-  "name": "starterkit",
+  "name": "starter-kit",
   "version": "0.0.0",
   "license": "MIT",
   "author": "shahirov",
@@ -7,7 +7,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --config config/webpack.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config config/webpack.prod.js",
-    "build-info": "webpack --config config/webpack.analyze.js",
+    "build-analyze": "webpack --config config/webpack.analyze.js",
     "ts": "tsc -p tsconfig.json",
     "ts-files": "tsc --listFiles -p tsconfig.json",
     "ts-coverage": "shx mkdir -p .coverage/typescript && typescript-coverage-report -s -t 98 -o .coverage/typescript",
@@ -116,8 +116,11 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "effector": "^21.5.0",
+    "effector-react": "^21.0.6",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
+    "react-router-dom": "^5.2.0",
     "styled-components": "^5.2.0",
     "styled-normalize": "^8.0.7"
   }
