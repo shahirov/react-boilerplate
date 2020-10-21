@@ -27,16 +27,16 @@ module.exports = merge(common, {
       filename: paths.outputDev.css,
       chunkFilename: paths.outputDev.css,
     }),
-    new webpack.HotModuleReplacementPlugin(),
-    new ReactRefreshPlugin(),
     new ErrorOverlayPlugin(),
     new FriendlyErrorsWebpackPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new ReactRefreshPlugin(),
     new CircularDependencyPlugin({
       exclude: /a\.js|node_modules/, // exclude node_modules
       failOnError: false, // show a warning when there is a circular dependency
     }),
   ],
-  devtool: 'source-map',
+  devtool: 'eval-source-map',
   devServer: {
     quiet: true,
     hot: true,

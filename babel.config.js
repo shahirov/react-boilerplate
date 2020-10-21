@@ -28,6 +28,10 @@ const pluginStyledComponents = {
   pure: true,
 }
 
+const pluginEffector = {
+  addLoc: true,
+}
+
 module.exports = {
   presets: [
     ['@babel/preset-env', presetEnv],
@@ -37,5 +41,6 @@ module.exports = {
   plugins: [
     ['babel-plugin-styled-components', pluginStyledComponents],
     isDevelopment && 'react-refresh/babel',
-  ].filter(Boolean),
+    ['effector/babel-plugin', (isDevelopment || isTest) && pluginEffector],
+  ],
 }

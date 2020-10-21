@@ -27,12 +27,12 @@ module.exports = {
       template: paths.indexHtml,
       favicon: paths.favicon,
     }),
-    new ESLintPlugin(),
     new DotenvPlugin({
       path: paths.env,
       expand: true,
       systemvars: true,
     }),
+    new ESLintPlugin(),
     new ForkTsCheckerWebpackPlugin({
       eslint: {
         enabled: true,
@@ -40,6 +40,9 @@ module.exports = {
       },
     }),
   ],
+  performance: {
+    hints: false,
+  },
   optimization: {
     noEmitOnErrors: true,
     namedModules: true,

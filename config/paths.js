@@ -4,6 +4,7 @@ const fileExtensions = ['.js', '.ts', '.tsx', '.json', '.jsx']
 
 module.exports = {
   root: path.resolve(__dirname, '..'),
+  source: path.resolve(__dirname, '../src'),
   build: path.resolve(__dirname, '../build'),
   index: path.resolve(__dirname, '../src/index'),
   indexHtml: path.resolve(__dirname, '../public/index.html'),
