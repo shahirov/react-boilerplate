@@ -6,15 +6,13 @@ const isDevelopment =
 const presetReact = {
   development: isDevelopment,
   useBuiltIns: true,
+  runtime: 'automatic',
 }
 
 const presetEnv = {
-  loose: true,
   useBuiltIns: 'usage',
   corejs: 3,
-  modules: isTest ? 'commonjs' : false,
-  shippedProposals: true,
-  bugfixes: true, // remove later in babel 8
+  modules: isTest ? 'commonjs' : 'auto',
 }
 
 const presetTypescript = {
@@ -42,5 +40,5 @@ module.exports = {
     ['babel-plugin-styled-components', pluginStyledComponents],
     isDevelopment && 'react-refresh/babel',
     ['effector/babel-plugin', (isDevelopment || isTest) && pluginEffector],
-  ],
+  ].filter(Boolean),
 }

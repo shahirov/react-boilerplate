@@ -19,6 +19,7 @@
   },
   "extends": [
     "plugin:unicorn/recommended",
+    "plugin:testing-library/recommended",
     "plugin:jest/recommended",
     "plugin:import/typescript",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
@@ -44,7 +45,7 @@
       "rules": {
         "sort-imports": "off",
         "import/order": "off",
-        "simple-import-sort/sort": [
+        "simple-import-sort/imports": [
           "error",
           {
             "groups": [
@@ -73,7 +74,7 @@
       }
     },
     {
-      "files": ["config/**/*.js"],
+      "files": ["webpack/**/*.js"],
       "rules": {
         "import/no-default-export": "off",
         "import/no-extraneous-dependencies": "off",
@@ -93,6 +94,8 @@
     }
   ],
   "rules": {
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": ["error", { "extensions": [".jsx", ".tsx"] }],
     "import/extensions": [
       "error",
@@ -145,7 +148,8 @@
           "param": true,
           "Param": true,
           "config": true,
-          "Config": true
+          "Config": true,
+          "resolveFn": true
         }
       }
     ],
@@ -158,6 +162,7 @@
         "ignoreFunctionalComponents": true
       }
     ],
-    "@typescript-eslint/comma-dangle": "off"
+    "@typescript-eslint/comma-dangle": "off",
+    "@typescript-eslint/no-shadow": "off"
   }
 }
