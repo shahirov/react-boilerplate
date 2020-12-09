@@ -74,19 +74,6 @@
       }
     },
     {
-      "files": ["webpack/**/*.js"],
-      "rules": {
-        "import/no-default-export": "off",
-        "import/no-extraneous-dependencies": "off",
-        "@typescript-eslint/no-var-requires": "off",
-        "@typescript-eslint/no-unsafe-assignment": "off",
-        "@typescript-eslint/no-unsafe-member-access": "off",
-        "@typescript-eslint/restrict-template-expressions": "off",
-        "@typescript-eslint/no-unsafe-return": "off",
-        "@typescript-eslint/no-unsafe-call": "off"
-      }
-    },
-    {
       "files": ["**/*.d.ts"],
       "rules": {
         "import/no-default-export": "off"
@@ -96,7 +83,10 @@
   "rules": {
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
-    "react/jsx-filename-extension": ["error", { "extensions": [".jsx", ".tsx"] }],
+    "react/jsx-filename-extension": [
+      "error",
+      { "extensions": [".jsx", ".tsx"] }
+    ],
     "import/extensions": [
       "error",
       "ignorePackages",
@@ -114,7 +104,8 @@
           "./*.js",
           "webpack/**/*.ts",
           "src/**/*.test.js",
-          "src/**/*.test.ts"
+          "src/**/*.test.ts",
+          "src/**/*.test.tsx"
         ]
       }
     ],

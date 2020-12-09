@@ -1,70 +1,42 @@
-const { merge } = require('webpack-merge')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-const TerserPlugin = require('terser-webpack-plugin')
-const safePostCssParser = require('postcss-safe-parser')
-const postcssNormalize = require('postcss-normalize')
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { CleanWebpackPlugin } from 'clean-webpack-plugin'
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import postcssNormalize from 'postcss-normalize'
+import merge from 'webpack-merge'
 
-const paths = require('./paths')
-const common = require('./webpack.common')
+import paths from './paths'
+import baseConfig from './webpack.base'
 
-module.exports = merge(common, {
+// eslint-disable-next-line import/no-default-export
+export default merge(baseConfig, {
   mode: 'production',
   bail: true,
   devtool: false,
   output: {
+    path: paths.appBuild,
     filename: 'js/[name].[contenthash:8].js',
     chunkFilename: 'js/[name].[contenthash:8].chunk.js',
   },
   optimization: {
     minimize: true,
     minimizer: [
-      new TerserPlugin({
-        terserOptions: {
-          parse: {
-            ecma: 8,
-          },
-          compress: {
-            ecma: 5,
-            warnings: false,
-            comparisons: false,
-            inline: 2,
-          },
-          mangle: {
-            safari10: true,
-          },
-          output: {
-            ecma: 5,
-            comments: false,
-            ascii_only: true,
-          },
-        },
-      }),
-      new OptimizeCSSAssetsPlugin({
-        cssProcessorOptions: {
-          parser: safePostCssParser,
-          map: false,
-        },
-        cssProcessorPluginOptions: {
-          preset: ['default', { minifyFontValues: { removeQuotes: false } }],
-        },
-      }),
+      '...',
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      new CssMinimizerPlugin(),
     ],
     splitChunks: {
       chunks: 'all',
       name: false,
     },
-    runtimeChunk: {
-      name: (entrypoint) => `runtime-${entrypoint.name}`,
-    },
+    runtimeChunk: true,
   },
   module: {
     rules: [
       {
-        test: /\.(js|mjs|jsx|ts|tsx)$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         include: paths.appSrc,
-        loader: 'babel-loader',
+        loader: require.resolve('babel-loader'),
         options: {
           cacheDirectory: true,
           cacheCompression: false,
@@ -75,28 +47,23 @@ module.exports = merge(common, {
         test: /\.css$/,
         exclude: /\.module\.css$/,
         use: [
-          'style-loader',
+          require.resolve('style-loader'),
+          MiniCssExtractPlugin.loader,
           {
-            loader: MiniCssExtractPlugin.loader,
-            options: paths.publicUrlOrPath.startsWith('.')
-              ? { publicPath: '../' }
-              : {},
-          },
-          {
-            loader: 'css-loader',
+            loader: require.resolve('css-loader'),
             options: {
               importLoaders: 1,
               sourceMap: false,
             },
           },
           {
-            loader: 'postcss-loader',
+            loader: require.resolve('postcss-loader'),
             options: {
               ident: 'postcss',
               postcssOptions: [],
               plugins: [
                 [
-                  'postcss-preset-env',
+                  require.resolve('postcss-preset-env'),
                   {
                     autoprefixer: {
                       flexbox: 'no-2009',
@@ -114,9 +81,9 @@ module.exports = merge(common, {
       {
         test: /\.module\.css$/,
         use: [
-          'style-loader',
+          require.resolve('style-loader'),
           {
-            loader: 'css-loader',
+            loader: require.resolve('css-loader'),
             options: {
               importLoaders: 1,
               sourceMap: false,
@@ -124,13 +91,13 @@ module.exports = merge(common, {
             },
           },
           {
-            loader: 'postcss-loader',
+            loader: require.resolve('postcss-loader'),
             options: {
               ident: 'postcss',
               postcssOptions: [],
               plugins: [
                 [
-                  'postcss-preset-env',
+                  require.resolve('postcss-preset-env'),
                   {
                     autoprefixer: {
                       flexbox: 'no-2009',
@@ -148,10 +115,10 @@ module.exports = merge(common, {
     ],
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash:8].css',
       chunkFilename: 'css/[name].[contenthash:8].chunk.css',
     }),
-    new CleanWebpackPlugin(),
   ],
 })
