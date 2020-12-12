@@ -1,6 +1,15 @@
 # TS
 .typescript
 
+# Babel
+babel.config.js
+
+# Jest
+jest.config.js
+
+# Webpack
+webpack
+
 # Dependencies
 node_modules
 

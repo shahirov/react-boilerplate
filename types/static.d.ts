@@ -1,36 +1,37 @@
+/* IMAGES */
 declare module '*.avif' {
-  const source: string
-  export default source
+  const ref: string
+  export default ref
 }
 
 declare module '*.bmp' {
-  const source: string
-  export default source
+  const ref: string
+  export default ref
 }
 
 declare module '*.gif' {
-  const source: string
-  export default source
+  const ref: string
+  export default ref
 }
 
 declare module '*.jpg' {
-  const source: string
-  export default source
+  const ref: string
+  export default ref
 }
 
 declare module '*.jpeg' {
-  const source: string
-  export default source
+  const ref: string
+  export default ref
 }
 
 declare module '*.png' {
-  const source: string
-  export default source
+  const ref: string
+  export default ref
 }
 
 declare module '*.webp' {
-  const source: string
-  export default source
+  const ref: string
+  export default ref
 }
 
 declare module '*.svg' {

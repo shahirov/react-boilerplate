@@ -9,7 +9,6 @@ import paths, { moduleFileExtensions } from './paths'
 
 const baseConfig: webpack.Configuration = {
   context: paths.appPath,
-  target: 'web',
   entry: paths.appIndexJs,
   output: {
     publicPath: paths.publicUrlOrPath,
@@ -63,14 +62,13 @@ const baseConfig: webpack.Configuration = {
       },
       eslint: {
         enabled: true,
-        files: 'src/**/*.{ts,tsx,js,jsx}',
+        files: './src/**/*.{ts,tsx,js,jsx}',
       },
     }),
     new ESLintPlugin({
       extensions: ['js', 'jsx', 'ts', 'tsx'],
       context: paths.appSrc,
       cwd: paths.appPath,
-      cache: true,
       resolvePluginsRelativeTo: __dirname,
     }),
   ],
