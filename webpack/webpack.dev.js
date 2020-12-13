@@ -1,16 +1,15 @@
-import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
-import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin'
-import postcssNormalize from 'postcss-normalize'
-import webpack, { Configuration as WebpackConfiguration } from 'webpack'
-import merge from 'webpack-merge'
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
+const postcssNormalize = require('postcss-normalize')
+const webpack = require('webpack')
+const { merge } = require('webpack-merge')
 
-import paths from './paths'
-import baseConfig from './webpack.base'
+const paths = require('./paths')
+const baseConfig = require('./webpack.base')
 
-// eslint-disable-next-line import/no-default-export
-export default merge<WebpackConfiguration>(baseConfig, {
+module.exports = merge(baseConfig, {
   mode: 'development',
-  devtool: 'eval-source-map',
+  devtool: 'cheap-module-source-map',
   output: {
     pathinfo: true,
     filename: 'js/bundle.js',
@@ -18,7 +17,6 @@ export default merge<WebpackConfiguration>(baseConfig, {
   },
   devServer: {
     compress: true,
-    // @ts-ignore
     static: [
       {
         directory: paths.appPublic,
@@ -27,8 +25,9 @@ export default merge<WebpackConfiguration>(baseConfig, {
         watch: true,
       },
     ],
-    dev: { publicPath: paths.publicUrlOrPath },
-    host: 'localhost',
+    dev: {
+      publicPath: paths.publicUrlOrPath,
+    },
     open: true,
     historyApiFallback: {
       disableDotRule: true,
@@ -62,20 +61,20 @@ export default merge<WebpackConfiguration>(baseConfig, {
           {
             loader: require.resolve('postcss-loader'),
             options: {
-              ident: 'postcss',
-              postcssOptions: [],
-              plugins: [
-                [
-                  require.resolve('postcss-preset-env'),
-                  {
-                    autoprefixer: {
-                      flexbox: 'no-2009',
+              postcssOptions: {
+                plugins: [
+                  [
+                    require.resolve('postcss-preset-env'),
+                    {
+                      autoprefixer: {
+                        flexbox: 'no-2009',
+                      },
+                      stage: 3,
                     },
-                    stage: 3,
-                  },
+                  ],
+                  postcssNormalize(),
                 ],
-                postcssNormalize(),
-              ],
+              },
               sourceMap: true,
             },
           },
@@ -96,20 +95,20 @@ export default merge<WebpackConfiguration>(baseConfig, {
           {
             loader: require.resolve('postcss-loader'),
             options: {
-              ident: 'postcss',
-              postcssOptions: [],
-              plugins: [
-                [
-                  require.resolve('postcss-preset-env'),
-                  {
-                    autoprefixer: {
-                      flexbox: 'no-2009',
+              postcssOptions: {
+                plugins: [
+                  [
+                    require.resolve('postcss-preset-env'),
+                    {
+                      autoprefixer: {
+                        flexbox: 'no-2009',
+                      },
+                      stage: 3,
                     },
-                    stage: 3,
-                  },
+                  ],
+                  postcssNormalize(),
                 ],
-                postcssNormalize(),
-              ],
+              },
               sourceMap: true,
             },
           },

@@ -1,13 +1,12 @@
-import fs from 'fs'
-import path from 'path'
+const fs = require('fs')
+const path = require('path')
 
 const appDirectory = fs.realpathSync(process.cwd())
-const resolveApp = (resolvePath: string) =>
-  path.resolve(appDirectory, resolvePath)
+const resolveApp = (resolvePath) => path.resolve(appDirectory, resolvePath)
 
-export const moduleFileExtensions = ['js', 'ts', 'tsx', 'json', 'jsx']
+const moduleFileExtensions = ['js', 'ts', 'tsx', 'json', 'jsx']
 
-const resolveModule = (resolveFn: typeof resolveApp, filePath: string) => {
+const resolveModule = (resolveFn, filePath) => {
   const extension = moduleFileExtensions.find((extension) =>
     fs.existsSync(resolveFn(`${filePath}.${extension}`)),
   )
@@ -19,8 +18,7 @@ const resolveModule = (resolveFn: typeof resolveApp, filePath: string) => {
   return resolveFn(`${filePath}.js`)
 }
 
-// eslint-disable-next-line import/no-default-export
-export default {
+module.exports = {
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
   appBuild: resolveApp('build'),
@@ -36,3 +34,5 @@ export default {
   appNodeModules: resolveApp('node_modules'),
   publicUrlOrPath: '/',
 }
+
+module.exports.moduleFileExtensions = moduleFileExtensions

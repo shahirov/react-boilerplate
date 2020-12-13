@@ -19,7 +19,6 @@ This starter kit uses the following libraries and tools:
 - [Styled Components](https://github.com/styled-components) allows styling components in JS
 - [ESLint](https://github.com/eslint/eslint) for linting JS/TS
 - [Jest](https://github.com/facebook/jest) as test runner
-- [TS Jest](https://github.com/kulshekhar/ts-jest) as Jest preprocessor
 - [React Testing Library](https://github.com/testing-library/react-testing-library) for asserting React Components
 
 ## Installation
@@ -36,7 +35,6 @@ In the project directory, you can run:
 
 - `npm start` - runs the app in the development mode
 - `npm run build` - builds the app for production
-- `npm run build-analyze` - open bundle analyzer in browser
 - `npm run qa` - run code quality tools
 - `npm run fix` - fix linting errors
 - `npm run lint` - run linters
@@ -49,7 +47,6 @@ In the project directory, you can run:
 - `npm run test` - launches the test runner
 - `npm run test-silent` - launches the test runner and show errors only
 - `npm run test-coverage` - show test coverage
-
 
 ## Extra features
 

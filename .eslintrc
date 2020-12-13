@@ -103,6 +103,7 @@
         "devDependencies": [
           "./*.js",
           "webpack/**/*.ts",
+          "src/setup-tests.ts",
           "src/**/*.test.js",
           "src/**/*.test.ts",
           "src/**/*.test.tsx"

@@ -1,14 +1,13 @@
-import DotenvPlugin from 'dotenv-webpack'
-import ESLintPlugin from 'eslint-webpack-plugin'
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
-import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
-import webpack from 'webpack'
+const DotenvPlugin = require('dotenv-webpack')
+const ESLintPlugin = require('eslint-webpack-plugin')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 
-import paths, { moduleFileExtensions } from './paths'
+const paths = require('./paths')
+const { moduleFileExtensions } = require('./paths')
 
-const baseConfig: webpack.Configuration = {
-  context: paths.appPath,
+module.exports = {
   entry: paths.appIndexJs,
   output: {
     publicPath: paths.publicUrlOrPath,
@@ -60,16 +59,14 @@ const baseConfig: webpack.Configuration = {
       typescript: {
         configFile: paths.appTsConfig,
       },
-      eslint: {
-        enabled: true,
-        files: './src/**/*.{ts,tsx,js,jsx}',
-      },
     }),
     new ESLintPlugin({
       extensions: ['js', 'jsx', 'ts', 'tsx'],
+      eslintPath: require.resolve('eslint'),
       context: paths.appSrc,
       cwd: paths.appPath,
       resolvePluginsRelativeTo: __dirname,
+      cache: true,
     }),
   ],
   performance: {
@@ -83,6 +80,3 @@ const baseConfig: webpack.Configuration = {
     version: false,
   },
 }
-
-// eslint-disable-next-line import/no-default-export
-export default baseConfig

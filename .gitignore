@@ -3,6 +3,9 @@
 # dependencies
 node_modules
 
+# eslint
+.eslintcache
+
 # testing
 coverage
 .coverage
