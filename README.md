@@ -2,7 +2,6 @@
 
 [![Dependency Status](https://david-dm.org/shahirov/starter-kit.svg)](https://david-dm.org/shahirov/starter-kit)
 [![devDependency Status](https://david-dm.org/shahirov/starter-kit/dev-status.svg)](https://david-dm.org/shahirov/starter-kit?type=dev)
-[![Known Vulnerabilities](https://snyk.io/test/github/shahirov/starter-kit/badge.svg)](https://snyk.io/test/github/shahirov/starter-kit)
 
 ## Technology stack
 
@@ -16,7 +15,6 @@ This starter kit uses the following libraries and tools:
 - [React Router](https://github.com/ReactTraining/react-router) handles in-app routing
 - [Effector](https://github.com/effector/effector) manages application state
 - [Effector React](https://github.com/effector/effector) to use effector-react bindings
-- [Styled Components](https://github.com/styled-components) allows styling components in JS
 - [ESLint](https://github.com/eslint/eslint) for linting JS/TS
 - [Jest](https://github.com/facebook/jest) as test runner
 - [React Testing Library](https://github.com/testing-library/react-testing-library) for asserting React Components
