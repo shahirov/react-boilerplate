@@ -9,30 +9,24 @@ const baseConfig = require('./webpack.base')
 
 module.exports = merge(baseConfig, {
   mode: 'development',
-  devtool: 'cheap-module-source-map',
+  devtool: 'eval-source-map',
   output: {
     pathinfo: true,
     filename: 'js/bundle.js',
     chunkFilename: 'js/[name].chunk.js',
   },
   devServer: {
+    contentBase: paths.appPublic,
+    publicPath: paths.publicUrlOrPath,
+    watchContentBase: true,
     compress: true,
-    static: [
-      {
-        directory: paths.appPublic,
-        publicPath: paths.publicUrlOrPath,
-        serveIndex: true,
-        watch: true,
-      },
-    ],
-    dev: {
-      publicPath: paths.publicUrlOrPath,
-    },
+    hot: true,
     open: true,
+    stats: 'errors-only',
+    port: 8000,
     historyApiFallback: {
       disableDotRule: true,
     },
-    port: 8000,
   },
   module: {
     rules: [

@@ -24,7 +24,7 @@ module.exports = merge(baseConfig, {
   },
   optimization: {
     minimize: true,
-    minimizer: ['...', new CssMinimizerPlugin()],
+    minimizer: [`...`, new CssMinimizerPlugin()],
     splitChunks: {
       chunks: 'all',
       minSize: 0,
@@ -138,7 +138,10 @@ module.exports = merge(baseConfig, {
     ],
   },
   plugins: [
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin({
+      dry: false,
+      verbose: true,
+    }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash:8].css',
       chunkFilename: 'css/[name].[contenthash:8].chunk.css',

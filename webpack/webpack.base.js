@@ -69,14 +69,4 @@ module.exports = {
       cache: true,
     }),
   ],
-  performance: {
-    hints: false,
-  },
-  stats: {
-    modules: false,
-    chunks: false,
-    children: false,
-    timings: false,
-    version: false,
-  },
 }
