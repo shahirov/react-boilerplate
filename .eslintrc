@@ -27,10 +27,7 @@
     "airbnb",
     "airbnb/hooks",
     "airbnb-typescript",
-    "prettier",
-    "prettier/react",
-    "prettier/@typescript-eslint",
-    "prettier/unicorn"
+    "prettier"
   ],
   "env": {
     "es2020": true,
